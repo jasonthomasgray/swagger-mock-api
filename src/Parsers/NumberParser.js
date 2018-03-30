@@ -1,20 +1,18 @@
-import Chance from 'chance';
-const chance = new Chance();
 
 export default class NumberParser {
     canParse(node) {
         return this.isInteger(node) || this.isFloating(node);
     }
 
-    parse(node) {
+    parse(node, chance) {
         if (this.isInteger(node))
-            return this.generateInteger(node);
+            return this.generateInteger(node, chance);
 
         if (this.isFloating(node))
             return chance.floating(node['x-type-options']);
     }
 
-    generateInteger(node) {
+    generateInteger(node, chance) {
         let bounds = this.resolveBounds(node);
         return chance.integer(bounds) * (node.multipleOf || 1);
     }

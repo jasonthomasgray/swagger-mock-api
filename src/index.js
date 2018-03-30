@@ -57,7 +57,6 @@ export default function(config) {
       if (path.charAt(0) !== '/') {
         path = '/' + path;
       }
-
       const matchingRoute = router.match('/' + method + path);
 
       if (!matchingRoute) return next();
@@ -67,7 +66,7 @@ export default function(config) {
       }
 
       try {
-        const response = matchingRoute.fn();
+        const response = matchingRoute.fn(path);
         res.setHeader('Content-Type', 'application/json');
         res.write(response !== null ? JSON.stringify(response) : '');
       } catch(e) {

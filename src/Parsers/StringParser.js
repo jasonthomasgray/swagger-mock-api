@@ -1,25 +1,32 @@
-import Chance from 'chance';
-const chance = new Chance();
 import RandExp from 'randexp';
+
+function getRandExp(chance) {
+  return function randInt(from, to) {
+    return chance.integer({min: from, max: to});
+  }
+}
 
 export default class StringParser {
     canParse(node) {
         return node.type === 'string';
     }
 
-    parse(node) {
-        return this.parseString(node);
+    parse(node, chance) {
+        return this.parseString(node, chance);
     }
 
-    parseString(node) {
-        if (node.pattern)
-            return new RandExp(node.pattern).gen();
-            
-        let options = this.resolveChanceOptions(node);
+    parseString(node, chance) {
+        if (node.pattern) {
+          const randexp = new RandExp(node.pattern);
+          randexp.randInt = getRandExp(chance);
+          return randexp.gen();
+        }
+
+        let options = this.resolveChanceOptions(node, chance);
         return chance.string(options);
     }
 
-    resolveChanceOptions(node) {
+    resolveChanceOptions(node, chance) {
         let options = node['x-type-options'] || {};
 
         if (node.maxLength && node.minLength)

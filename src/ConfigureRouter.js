@@ -20,8 +20,8 @@ function correctPath(path) {
 }
 
 // wrapped MockData to satisfy eslint's no funciton definitions inside of loops
-function mock(schema) {
-  return MockData(schema);
+function mock(schema, path) {
+  return MockData(schema, path);
 }
 
 function generateResponse(potentialResponses) {

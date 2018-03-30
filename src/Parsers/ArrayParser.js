@@ -1,5 +1,3 @@
-import Chance from 'chance';
-const chance = new Chance();
 
 export default class ArrayParser {
     constructor(parser) {
@@ -10,11 +8,11 @@ export default class ArrayParser {
         return node.type === 'array';
     }
 
-    parse(node) {
-        return this.generateArray(node);
+    parse(node, chance) {
+        return this.generateArray(node, chance);
     }
 
-    generateArray(node) {
+    generateArray(node, chance) {
         let items = node.items;
         let options = node['x-type-options'] || {};
 
@@ -25,7 +23,7 @@ export default class ArrayParser {
         let ret = [];
 
         for (let i = 0; i < iterations; i++) {
-            ret.push(this.parser.parse(items));
+            ret.push(this.parser.parse(items, chance));
         }
 
         return ret;

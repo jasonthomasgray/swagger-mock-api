@@ -1,5 +1,3 @@
-import Chance from 'chance';
-const chance = new Chance();
 
 export default class AllOfParser {
     constructor(parser) {
@@ -10,12 +8,12 @@ export default class AllOfParser {
         return !!node.allOf;
     }
 
-    parse(node) {
-        return this.generateObject(node);
+    parse(node, chance) {
+        return this.generateObject(node, chance);
     }
 
-    generateObject(node) {
+    generateObject(node, chance) {
         return node.allOf
-            .reduce((s, o) => Object.assign(s, this.parser.parse(o)), {});
+            .reduce((s, o) => Object.assign(s, this.parser.parse(o, chance)), {});
     }
 }

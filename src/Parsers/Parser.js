@@ -6,8 +6,6 @@ import DateParser from './DateParser'
 import BooleanParser from './BooleanParser'
 import AllOfParser from './AllOfParser'
 import EnumParser from './EnumParser'
-import Chance from 'chance';
-const chance = new Chance();
 
 export default class Parser {
     get parsers() {
@@ -33,7 +31,7 @@ export default class Parser {
         return parser;
     }
 
-    parse(node) {
+    parse(node, chance) {
         if (node['x-chance-type'] === 'fixed') {
             return node['x-type-value'];
         }
@@ -41,6 +39,6 @@ export default class Parser {
         if (node['x-chance-type'])
             return chance[node['x-chance-type']](node['x-type-options']);
 
-        return this.getParser(node).parse(node);
+        return this.getParser(node).parse(node, chance);
     }
 }

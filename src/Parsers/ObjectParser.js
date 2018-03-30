@@ -1,6 +1,4 @@
-import Chance from 'chance';
 import hoek from 'hoek';
-const chance = new Chance();
 
 export default class ObjectParser {
     constructor(parser) {
@@ -10,17 +8,17 @@ export default class ObjectParser {
         return !!node.properties;
     }
 
-    parse(node) {
-        return this.generateObject(node);
+    parse(node, chance) {
+        return this.generateObject(node, chance);
     }
 
-    generateObject(node) {
+    generateObject(node, chance) {
         let ret = {};
         let schema = hoek.clone(node);
         schema = schema.properties || schema;
-        
+
         for (let k in schema) {
-            ret[k] = this.parser.parse(schema[k]);
+            ret[k] = this.parser.parse(schema[k], chance);
         }
 
         return ret;
